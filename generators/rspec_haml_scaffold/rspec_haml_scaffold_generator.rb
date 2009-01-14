@@ -131,7 +131,7 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
       when "edit"
         return "edit_#{table_name.singularize}_path(@#{singular_name.singularize})"
       when "destroy"
-        return "#{table_name.singularize}_path(@#{singular_name.singularize}), :confirm => 'Are you sure?', :method => :delete"
+        return "destroy_#{table_name.singularize}_path(@#{singular_name.singularize})"
       when "index"  
         return "#{table_name}_path"
       end  
