@@ -29,7 +29,7 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
     end
 
     @resource_generator = "rspec_haml_scaffold"
-    @default_file_extension = "haml"
+    @default_file_extension = "html.haml"
     @resource_edit_path = "/edit"
     
 
@@ -150,7 +150,7 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
     end
 
     def scaffold_views
-     %w[ index show new edit ]
+     %w[ index show new edit destroy]
     end
 
     def model_name 

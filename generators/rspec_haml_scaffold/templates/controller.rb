@@ -75,11 +75,15 @@ class <%= controller_class_name %>Controller < ApplicationController
   # DELETE /<%= name %>/1.xml
   def destroy
     @<%= file_name %> = <%= singular_name.capitalize %>.find(params[:id])
-    @<%= file_name %>.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(<%= table_name %>_url) }
-      format.xml  { head :ok }
+    # check that the http method is :delete
+    if request.method == :delete
+      @<%= file_name %>.destroy
+      flash[:notice] = '<%= singular_name.capitalize %> Deleted'
+    
+      respond_to do |format|
+        format.html { redirect_to(<%= table_name %>_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 end
