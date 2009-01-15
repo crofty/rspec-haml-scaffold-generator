@@ -60,8 +60,6 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('spec/controllers', controller_class_path))
       m.directory(File.join('spec/models'))
       m.directory(File.join('spec/helpers', class_path))
-      m.directory File.join('spec/fixtures')
-      m.directory File.join('spec/views', controller_class_path, controller_file_name)
       
       # Controller spec, class, and helper.
       m.template 'rspec_haml_scaffold:controller_spec.rb',
@@ -85,18 +83,10 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
       
       # Model class, unit test, and fixtures.
       m.template 'rspec_haml_scaffold:model.rb',      File.join('app/models', "#{@controller_singular_name.singularize}.rb")
-      m.template 'model:fixtures.yml',  File.join('spec/fixtures', "#{@controller_singular_name}.yml")
       m.template 'rspec_haml_scaffold:model_spec.rb',       File.join('spec/models', "#{@controller_singular_name}_spec.rb")
-
-      # View specs
-      m.template "rspec_haml_scaffold:edit_haml_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "edit.#{default_file_extension}_spec.rb")
-      m.template "rspec_haml_scaffold:index_haml_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "index.#{default_file_extension}_spec.rb")
-      m.template "rspec_haml_scaffold:new_haml_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "new.#{default_file_extension}_spec.rb")
-      m.template "rspec_haml_scaffold:show_haml_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "show.#{default_file_extension}_spec.rb")
+      
+      # No more fixtures
+      # View specs - no more view specs
 
       unless options[:skip_migration]
         m.migration_template(
