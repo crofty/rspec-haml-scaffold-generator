@@ -4,11 +4,11 @@
   %fieldset.attributes 
     %legend 
       <%= singular_name %> attributes
-      %ol
+    %ol
 <% for attribute in attributes -%>
-        %li
-          = f.label :<%= attribute.name %>
-          = f.<%= attribute.field_type %> :<%= attribute.name %> 
+      %li
+        = f.label :<%= attribute.name %>
+        = f.<%= attribute.field_type %> :<%= attribute.name %> 
 <% end %>
   %fieldset.submit
     = f.submit "#{submit}"
