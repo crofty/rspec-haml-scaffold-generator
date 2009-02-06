@@ -49,7 +49,7 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
       #p @controller_class_path # ["yoda"]
       
       # Check for class naming collisions.
-      m.class_collisions(controller_class_path, "#{controller_class_name}Controller", "#{controller_class_name}Helper")
+      m.class_collisions(controller_class_path, "#{controller_class_name}Controller")
       m.class_collisions(class_path, "#{class_name}")
 
       # Controller, helper, views, and spec directories.

@@ -1,6 +1,10 @@
-%h1 Editing <%= singular_name %>
+%h1 Editing <%= singular_name.titleize %>
 
-= render :partial => 'form', :locals => {:<%= singular_name %> => @<%= singular_name %>, :submit => 'update'}
+= error_messages_for :<%= singular_name %> 
+
+- form_for(<%= form_link_for(table_name, singular_name) %>) do |f|
+  = render( :partial => 'form', { :locals => f } )
+  %p= f.submit "Update"
 
 = link_to 'Show', <%= path_for(table_name, singular_name, "show") %>
 = link_to 'Back', <%= path_for(table_name, singular_name, "index") %>
