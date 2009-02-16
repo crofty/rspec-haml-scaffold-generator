@@ -1,15 +1,29 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-describe <%= controller_class_name %>Controller do
+describe <%= controller_class_name %>Controller, "#route_for" do
 
-  describe "routes" do
-    route_matches("/<%= name.pluralize %>",        :get,    :controller => "<%= name.pluralize %>", :action => "index")
-    route_matches("/<%= name.pluralize %>",        :post,   :controller => "<%= name.pluralize %>", :action => "create")
-    route_matches("/<%= name.pluralize %>/1",      :get,    :controller => "<%= name.pluralize %>", :action => "show", :id => "1")
-    route_matches("/<%= name.pluralize %>/1",      :put,    :controller => "<%= name.pluralize %>", :action => "update", :id => "1")
-    route_matches("/<%= name.pluralize %>/1/edit", :get,    :controller => "<%= name.pluralize %>", :action => "edit", :id => "1")
-    route_matches("/<%= name.pluralize %>/new",    :get,    :controller => "<%= name.pluralize %>", :action => "new")
-    route_matches("/<%= name.pluralize %>/1",      :delete, :controller => "<%= name.pluralize %>", :action => "destroy", :id => "1")
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'index' } to /<%= name.pluralize %>" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "index").should == "/<%= name.pluralize %>"
+  end
+  
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'new' } to /<%= name.pluralize %>/new" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "new").should == "/<%= name.pluralize %>/new"
+  end
+  
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'show', :id => 1 } to /<%= name.pluralize %>/1" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "show", :id => 1).should == "/<%= name.pluralize %>/1"
+  end
+  
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'edit', :id => 1 } to /<%= name.pluralize %>/1<%= resource_edit_path %>" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "edit", :id => 1).should == "/<%= name.pluralize %>/1<%= resource_edit_path %>"
+  end
+  
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'update', :id => 1} to /<%= name.pluralize %>/1" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "update", :id => 1).should == "/<%= name.pluralize %>/1"
+  end
+  
+  it "should map { :controller => '<%= name.pluralize %>', :action => 'destroy', :id => 1} to /<%= name.pluralize %>/1/destroy" do
+    route_for(:controller => "<%= name.pluralize %>", :action => "destroy", :id => 1).should == "/<%= name.pluralize %>/1/destroy"
   end
   
 end
@@ -248,6 +262,6 @@ describe <%= controller_class_name %>Controller, "handling DELETE /<%= name %>/1
   
   it "should redirect to the <%= name.pluralize %> list" do
     do_delete
-    response.should redirect_to(<%= table_name.pluralize %>_url)
+    response.should redirect_to(<%= table_name %>_url)
   end
 end

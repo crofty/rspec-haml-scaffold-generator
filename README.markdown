@@ -51,13 +51,3 @@ The model specs include tests to test the table structure.  In order to get thes
       end
     end
     
-The controller specs require the following in /spec/spec_helper.rb
-    def route_matches(path, method, params)
-      it "maps #{params.inspect} to #{path.inspect}" do
-        route_for(params).should == path
-      end
-    
-      it "generates params #{params.inspect} from #{method.to_s.upcase} to #{path.inspect}" do
-        params_from(method.to_sym, path).should == params
-      end
-    end

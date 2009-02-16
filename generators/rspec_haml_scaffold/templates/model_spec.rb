@@ -6,4 +6,5 @@ describe <%= singular_name.capitalize %> do
   <% for attribute in attributes -%>
 table_has_columns(<%= singular_name.capitalize %>,:<%= attribute.type %>,"<%= attribute.name %>")
   <% end -%>
+
 end
