@@ -41,12 +41,23 @@ JC Additions
 ===============================
 The controllers now use the make_resourceful plugin
 The model specs include tests to test the table structure.  In order to get these specs to work, add the following to spec/spec_helper.rb
-def table_has_columns(clazz, type, *column_names)
-  column_names.each do |column_name|
-    column = clazz.columns.select {|c| c.name == column_name.to_s}.first
-    it "has a #{type} named #{column_name}" do
-      column.should_not be_nil
-      column.type.should == type.to_sym
+    def table_has_columns(clazz, type, *column_names)
+      column_names.each do |column_name|
+        column = clazz.columns.select {|c| c.name == column_name.to_s}.first
+        it "has a #{type} named #{column_name}" do
+          column.should_not be_nil
+          column.type.should == type.to_sym
+        end
+      end
     end
-  end
-end
+    
+The controller specs require the following in /spec/spec_helper.rb
+    def route_matches(path, method, params)
+      it "maps #{params.inspect} to #{path.inspect}" do
+        route_for(params).should == path
+      end
+    
+      it "generates params #{params.inspect} from #{method.to_s.upcase} to #{path.inspect}" do
+        params_from(method.to_sym, path).should == params
+      end
+    end

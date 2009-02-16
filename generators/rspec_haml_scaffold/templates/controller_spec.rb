@@ -1,29 +1,15 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-describe <%= controller_class_name %>Controller, "#route_for" do
+describe <%= controller_class_name %>Controller do
 
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'index' } to /<%= name.pluralize %>" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "index").should == "/<%= name.pluralize %>"
-  end
-  
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'new' } to /<%= name.pluralize %>/new" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "new").should == "/<%= name.pluralize %>/new"
-  end
-  
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'show', :id => 1 } to /<%= name.pluralize %>/1" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "show", :id => 1).should == "/<%= name.pluralize %>/1"
-  end
-  
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'edit', :id => 1 } to /<%= name.pluralize %>/1<%= resource_edit_path %>" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "edit", :id => 1).should == "/<%= name.pluralize %>/1<%= resource_edit_path %>"
-  end
-  
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'update', :id => 1} to /<%= name.pluralize %>/1" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "update", :id => 1).should == "/<%= name.pluralize %>/1"
-  end
-  
-  it "should map { :controller => '<%= name.pluralize %>', :action => 'destroy', :id => 1} to /<%= name.pluralize %>/1/destroy" do
-    route_for(:controller => "<%= name.pluralize %>", :action => "destroy", :id => 1).should == "/<%= name.pluralize %>/1/destroy"
+  describe "routes" do
+    route_matches("/<%= name.pluralize %>",        :get,    :controller => "<%= name.pluralize %>", :action => "index")
+    route_matches("/<%= name.pluralize %>",        :post,   :controller => "<%= name.pluralize %>", :action => "create")
+    route_matches("/<%= name.pluralize %>/1",      :get,    :controller => "<%= name.pluralize %>", :action => "show", :id => "1")
+    route_matches("/<%= name.pluralize %>/1",      :put,    :controller => "<%= name.pluralize %>", :action => "update", :id => "1")
+    route_matches("/<%= name.pluralize %>/1/edit", :get,    :controller => "<%= name.pluralize %>", :action => "edit", :id => "1")
+    route_matches("/<%= name.pluralize %>/new",    :get,    :controller => "<%= name.pluralize %>", :action => "new")
+    route_matches("/<%= name.pluralize %>/1",      :delete, :controller => "<%= name.pluralize %>", :action => "destroy", :id => "1")
   end
   
 end
@@ -60,34 +46,6 @@ describe <%= controller_class_name %>Controller, "handling GET /<%= name.plurali
   end
 end
 
-describe <%= controller_class_name %>Controller, "handling GET /<%= name.pluralize %>.xml" do
-
-  before do
-    @<%= file_name %> = mock_model(<%= singular_name.capitalize %>, :to_xml => "XML")
-    <%= singular_name.capitalize %>.stub!(:find).and_return(@<%= file_name %>)
-  end
-  
-  def do_get
-    @request.env["HTTP_ACCEPT"] = "application/xml"
-    get :index
-  end
-  
-  it "should be successful" do
-    do_get
-    response.should be_success
-  end
-
-  it "should find all <%= name.pluralize %>" do
-    <%= singular_name.capitalize %>.should_receive(:find).with(:all).and_return([@<%= file_name %>])
-    do_get
-  end
-  
-  it "should render the found <%= name %> as xml" do
-    @<%= file_name %>.should_receive(:to_xml).and_return("XML")
-    do_get
-    response.body.should == "XML"
-  end
-end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= name.pluralize %>/1" do
 
@@ -121,34 +79,6 @@ describe <%= controller_class_name %>Controller, "handling GET /<%= name.plurali
   end
 end
 
-describe <%= controller_class_name %>Controller, "handling GET /<%= name.pluralize %>/1.xml" do
-
-  before do
-    @<%= file_name %> = mock_model(<%= singular_name.capitalize %>, :to_xml => "XML")
-    <%= singular_name.capitalize %>.stub!(:find).and_return(@<%= file_name %>)
-  end
-  
-  def do_get
-    @request.env["HTTP_ACCEPT"] = "application/xml"
-    get :show, :id => "1"
-  end
-
-  it "should be successful" do
-    do_get
-    response.should be_success
-  end
-  
-  it "should find the <%= file_name %> requested" do
-    <%= singular_name.capitalize %>.should_receive(:find).with("1").and_return(@<%= file_name %>)
-    do_get
-  end
-  
-  it "should render the found <%= file_name %> as xml" do
-    @<%= singular_name %>.should_receive(:to_xml).and_return("XML")
-    do_get
-    response.body.should == "XML"
-  end
-end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= name.pluralize %>/new" do
 
