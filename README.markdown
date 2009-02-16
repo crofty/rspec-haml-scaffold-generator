@@ -1,7 +1,6 @@
 RSpec Haml Scaffold Generator
 =============================
 
-
 This is an uber version of the RSpec Scaffold Generator, the following things have been added:
 
 Support for Haml instead of erb
@@ -37,3 +36,17 @@ Here is the code in question
     end
 
 The generator does not add this code and expects you will implement a one step javascript destroy at a later date.
+
+JC Additions
+===============================
+The controllers now use the make_resourceful plugin
+The model specs include tests to test the table structure.  In order to get these specs to work, add the following to spec/spec_helper.rb
+def table_has_columns(clazz, type, *column_names)
+  column_names.each do |column_name|
+    column = clazz.columns.select {|c| c.name == column_name.to_s}.first
+    it "has a #{type} named #{column_name}" do
+      column.should_not be_nil
+      column.type.should == type.to_sym
+    end
+  end
+end
