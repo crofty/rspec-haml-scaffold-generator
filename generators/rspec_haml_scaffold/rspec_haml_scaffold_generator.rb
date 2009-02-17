@@ -95,7 +95,7 @@ class RspecHamlScaffoldGenerator < Rails::Generator::NamedBase
             :migration_name => "Create#{singular_name.pluralize.capitalize}",
             :attributes     => attributes
           }, 
-          :migration_file_name => "create_#{controller_singular_name.gsub(/\//, '_').pluralize}"
+          :migration_file_name => "create_#{singular_name.gsub(/\//, '_').pluralize}"
         )
       end
 
