@@ -1,6 +1,5 @@
 <% for attribute in attributes -%>
-%p
+.field-line
   = f.label :<%= attribute.name %>
-  %br
   = f.<%= attribute.field_type %> :<%= attribute.name %> 
 <% end %>
